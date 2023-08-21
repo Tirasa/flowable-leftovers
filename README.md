@@ -26,5 +26,5 @@ The purpose of this repository is to attempt to migrate the leftover components 
   <img src="https://github.com/Tirasa/flowable-leftovers/actions/workflows/ci.yml/badge.svg"/>
 </a>
 <a href="#">
-  <img src="https://img.shields.io/maven-central/v/net.tirasa.flowable-leftovers/flowable-leftovers.rest.svg"/>
+  <img src="https://img.shields.io/maven-central/v/net.tirasa.flowable-leftovers/flowable-leftovers.svg"/>
 </a>
