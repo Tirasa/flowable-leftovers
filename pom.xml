@@ -23,7 +23,7 @@
   <name>Flowable Leftovers</name>
   <groupId>net.tirasa.flowable-leftovers</groupId>
   <artifactId>flowable-leftovers</artifactId>
-  <version>7.0.0.M2</version>
+  <version>7.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <inceptionYear>2023</inceptionYear>
@@ -40,7 +40,7 @@
     <connection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</connection>
     <url>scm:git:git@github.com:Tirasa/flowable-leftovers.git</url>
     <developerConnection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</developerConnection>
-    <tag>flowable-leftovers-7.0.0.M2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
