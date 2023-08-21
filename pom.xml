@@ -21,11 +21,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Flowable Leftovers</name>
+  <description>Brings back components leftover by latest Flowable releases</description>
   <groupId>net.tirasa.flowable-leftovers</groupId>
   <artifactId>flowable-leftovers</artifactId>
   <version>7.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <url>https://github.com/Tirasa/flowable-leftovers</url>
   <inceptionYear>2023</inceptionYear>
 
   <licenses>
