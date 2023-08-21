@@ -15,5 +15,16 @@
     limitations under the License.
 
 -->
-# flowable-leftovers
-Flowable leftovers
+# Flowable leftovers
+
+As explained by [this message](https://forum.flowable.org/t/module-flowable-json-converter-and-flowable-ui-modeler-frontend-missing-in-7-0-0-m1/10061/7) in the Flowable forum, not all components released with 6.8.0 are scheduled for next stable version 7.0.0.
+
+The purpose of this repository is to attempt to migrate the leftover components to 7.0.0.
+
+
+<a href="https://github.com/Tirasa/flowable-leftovers/actions/workflows/ci.yml">
+  <img src="https://github.com/Tirasa/flowable-leftovers/actions/workflows/ci.yml/badge.svg"/>
+</a>
+<a href="#">
+  <img src="https://img.shields.io/maven-central/v/net.tirasa.flowable-leftovers/flowable-leftovers.rest.svg"/>
+</a>
