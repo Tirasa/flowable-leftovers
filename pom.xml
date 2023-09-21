@@ -78,7 +78,7 @@
   </developers>
 
   <properties>
-    <flowable.version>7.0.0.M2</flowable.version>    
+    <flowable.version>7.0.0</flowable.version>    
 
     <targetJdk>17</targetJdk>
     <rootpom.basedir>${basedir}</rootpom.basedir>
