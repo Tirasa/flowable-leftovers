@@ -42,7 +42,7 @@
     <connection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</connection>
     <url>scm:git:git@github.com:Tirasa/flowable-leftovers.git</url>
     <developerConnection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</developerConnection>
-    <tag>flowable-leftovers-7.0.0.M2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
@@ -78,7 +78,7 @@
   </developers>
 
   <properties>
-    <flowable.version>7.0.0</flowable.version>    
+    <flowable.version>7.0.1</flowable.version>    
 
     <targetJdk>17</targetJdk>
     <rootpom.basedir>${basedir}</rootpom.basedir>
