@@ -24,7 +24,7 @@
   <description>Brings back components leftover by latest Flowable releases</description>
   <groupId>net.tirasa.flowable-leftovers</groupId>
   <artifactId>flowable-leftovers</artifactId>
-  <version>7.1.0</version>
+  <version>7.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <url>https://github.com/Tirasa/flowable-leftovers</url>
@@ -42,7 +42,7 @@
     <connection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</connection>
     <url>scm:git:git@github.com:Tirasa/flowable-leftovers.git</url>
     <developerConnection>scm:git:git@github.com:Tirasa/flowable-leftovers.git</developerConnection>
-    <tag>flowable-leftovers-7.1.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
