@@ -12,23 +12,15 @@
  */
 package org.flowable.editor.language.json.converter;
 
-import org.flowable.editor.language.json.converter.util.JsonConverterUtil;
-
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getProperty;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.editor.constants.EditorJsonConstants;
-import org.flowable.editor.constants.StencilConstants;
 import org.flowable.bpmn.model.Activity;
 import org.flowable.bpmn.model.Artifact;
 import org.flowable.bpmn.model.Association;
@@ -73,9 +65,16 @@ import org.flowable.bpmn.model.UserTask;
 import org.flowable.bpmn.model.VariableAggregationDefinition;
 import org.flowable.bpmn.model.VariableAggregationDefinitions;
 import org.flowable.bpmn.model.VariableListenerEventDefinition;
+import org.flowable.editor.constants.EditorJsonConstants;
+import org.flowable.editor.constants.StencilConstants;
 import org.flowable.editor.language.json.converter.util.CollectionUtils;
+import org.flowable.editor.language.json.converter.util.JsonConverterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -91,7 +90,7 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
         String propertyValue = null;
         JsonNode propertyNode = objectNode.get(name);
         if (propertyNode != null && !propertyNode.isNull()) {
-            propertyValue = propertyNode.asText();
+            propertyValue = propertyNode.asString();
         }
         return propertyValue;
     }
@@ -111,7 +110,7 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
         if (valuesNode != null) {
             for (JsonNode valueNode : valuesNode) {
                 if (valueNode.get("value") != null && !valueNode.get("value").isNull()) {
-                    resultList.add(valueNode.get("value").asText());
+                    resultList.add(valueNode.get("value").asString());
                 }
             }
         }
@@ -573,7 +572,7 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
                         for (JsonNode orderNode : orderArray) {
                             ExtensionElement orderElement = new ExtensionElement();
                             orderElement.setName("EDITOR_FLOW_ORDER");
-                            orderElement.setElementText(orderNode.asText());
+                            orderElement.setElementText(orderNode.asString());
                             flowElement.addExtensionElement(orderElement);
                         }
                     }
@@ -585,7 +584,7 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
             if (flowElement instanceof SequenceFlow) {
                 ExtensionElement idExtensionElement = new ExtensionElement();
                 idExtensionElement.setName("EDITOR_RESOURCEID");
-                idExtensionElement.setElementText(elementNode.get(EDITOR_SHAPE_ID).asText());
+                idExtensionElement.setElementText(elementNode.get(EDITOR_SHAPE_ID).asString());
                 flowElement.addExtensionElement(idExtensionElement);
             }
 
@@ -1042,9 +1041,9 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
 
         for (JsonNode formNode : propertiesArray) {
             JsonNode formIdNode = formNode.get(PROPERTY_FORM_ID);
-            if (formIdNode != null && StringUtils.isNotEmpty(formIdNode.asText())) {
+            if (formIdNode != null && StringUtils.isNotEmpty(formIdNode.asString())) {
                 FormProperty formProperty = new FormProperty();
-                formProperty.setId(formIdNode.asText());
+                formProperty.setId(formIdNode.asString());
                 formProperty.setName(getValueAsString(PROPERTY_FORM_NAME, formNode));
                 formProperty.setType(getValueAsString(PROPERTY_FORM_TYPE, formNode));
                 formProperty.setExpression(getValueAsString(PROPERTY_FORM_EXPRESSION, formNode));
@@ -1063,13 +1062,13 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
                                     && !enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME).isNull()) {
 
                                 FormValue formValue = new FormValue();
-                                formValue.setId(enumNode.get(PROPERTY_FORM_ENUM_VALUES_ID).asText());
-                                formValue.setName(enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME).asText());
+                                formValue.setId(enumNode.get(PROPERTY_FORM_ENUM_VALUES_ID).asString());
+                                formValue.setName(enumNode.get(PROPERTY_FORM_ENUM_VALUES_NAME).asString());
                                 formValueList.add(formValue);
                             } else if (enumNode.get("value") != null && !enumNode.get("value").isNull()) {
                                 FormValue formValue = new FormValue();
-                                formValue.setId(enumNode.get("value").asText());
-                                formValue.setName(enumNode.get("value").asText());
+                                formValue.setId(enumNode.get("value").asString());
+                                formValue.setName(enumNode.get("value").asString());
                                 formValueList.add(formValue);
                             }
                         }
@@ -1169,9 +1168,9 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
                 if (parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME) != null && !parameterNode.get(
                         PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).isNull()) {
                     ExtensionElement extensionElement = addFlowableExtensionElement("eventOutParameter", event);
-                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asText();
-                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asText();
-                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asText();
+                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asString();
+                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asString();
+                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asString();
 
                     addExtensionAttribute("source", eventName, extensionElement);
                     addExtensionAttribute("sourceType", eventType, extensionElement);
@@ -1193,9 +1192,9 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
 
                     IOParameter parameterObject = new IOParameter();
 
-                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asText();
-                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asText();
-                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asText();
+                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asString();
+                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asString();
+                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asString();
 
                     parameterObject.setSource(eventName);
                     parameterObject.addAttribute(createExtensionAttribute("sourceType", eventType));
@@ -1223,9 +1222,9 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
                         && !parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).isNull()) {
 
                     ExtensionElement extensionElement = addFlowableExtensionElement("eventInParameter", event);
-                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asText();
-                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asText();
-                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asText();
+                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asString();
+                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asString();
+                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asString();
 
                     addExtensionAttribute("source", variableName, extensionElement);
                     addExtensionAttribute("target", eventName, extensionElement);
@@ -1247,15 +1246,15 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
 
                     IOParameter parameterObject = new IOParameter();
 
-                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asText();
+                    String variableName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_VARIABLENAME).asString();
                     if ((variableName.contains("${") || variableName.contains("#{")) && variableName.contains("}")) {
                         parameterObject.setSourceExpression(variableName);
                     } else {
                         parameterObject.setSource(variableName);
                     }
 
-                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asText();
-                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asText();
+                    String eventName = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTNAME).asString();
+                    String eventType = parameterNode.get(PROPERTY_EVENT_REGISTRY_PARAMETER_EVENTTYPE).asString();
 
                     parameterObject.setTarget(eventName);
                     parameterObject.addAttribute(createExtensionAttribute("targetType", eventType));
@@ -1282,9 +1281,9 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
 
                     ExtensionElement extensionElement =
                             addFlowableExtensionElement(correlationPropertyName, flowElement);
-                    String name = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONNAME).asText();
-                    String type = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONTYPE).asText();
-                    String value = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONVALUE).asText();
+                    String name = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONNAME).asString();
+                    String type = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONTYPE).asString();
+                    String value = parameterNode.get(PROPERTY_EVENT_REGISTRY_CORRELATIONVALUE).asString();
 
                     addExtensionAttribute("name", name, extensionElement);
                     addExtensionAttribute("type", type, extensionElement);
@@ -1309,18 +1308,18 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
         for (JsonNode aggregationNode : aggregationsNode) {
             VariableAggregationDefinition aggregation = new VariableAggregationDefinition();
 
-            aggregation.setTarget(StringUtils.defaultIfBlank(aggregationNode.path("target").asText(null), null));
+            aggregation.setTarget(StringUtils.defaultIfBlank(aggregationNode.path("target").asString(null), null));
             aggregation.setTargetExpression(StringUtils.defaultIfBlank(
-                    aggregationNode.path("targetExpression").asText(null), null));
+                    aggregationNode.path("targetExpression").asString(null), null));
 
-            String delegateExpression = aggregationNode.path("delegateExpression").asText(null);
-            String customClass = aggregationNode.path("class").asText(null);
+            String delegateExpression = aggregationNode.path("delegateExpression").asString(null);
+            String customClass = aggregationNode.path("class").asString(null);
             if (StringUtils.isNotBlank(delegateExpression)) {
                 aggregation.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
                 aggregation.setImplementation(delegateExpression);
             } else if (StringUtils.isNotBlank(customClass)) {
                 aggregation.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
-                aggregation.setImplementation(aggregationNode.path("class").asText(null));
+                aggregation.setImplementation(aggregationNode.path("class").asString(null));
             }
 
             if (aggregationNode.path("storeAsTransient").asBoolean(false)) {
@@ -1334,12 +1333,12 @@ public abstract class BaseBpmnJsonConverter implements EditorJsonConstants, Sten
             for (JsonNode definitionNode : aggregationNode.path("definitions")) {
                 VariableAggregationDefinition.Variable definition = new VariableAggregationDefinition.Variable();
 
-                definition.setSource(StringUtils.defaultIfBlank(definitionNode.path("source").asText(null), null));
+                definition.setSource(StringUtils.defaultIfBlank(definitionNode.path("source").asString(null), null));
                 definition.setSourceExpression(
-                        StringUtils.defaultIfBlank(definitionNode.path("sourceExpression").asText(null), null));
-                definition.setTarget(StringUtils.defaultIfBlank(definitionNode.path("target").asText(null), null));
+                        StringUtils.defaultIfBlank(definitionNode.path("sourceExpression").asString(null), null));
+                definition.setTarget(StringUtils.defaultIfBlank(definitionNode.path("target").asString(null), null));
                 definition.setTargetExpression(
-                        StringUtils.defaultIfBlank(definitionNode.path("targetExpression").asText(null), null));
+                        StringUtils.defaultIfBlank(definitionNode.path("targetExpression").asString(null), null));
 
                 aggregation.addDefinition(definition);
             }

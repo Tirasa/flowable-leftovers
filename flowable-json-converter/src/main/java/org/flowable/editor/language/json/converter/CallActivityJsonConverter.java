@@ -16,9 +16,6 @@ import static org.flowable.editor.language.json.converter.util.JsonConverterUtil
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +24,9 @@ import org.flowable.bpmn.model.BaseElement;
 import org.flowable.bpmn.model.CallActivity;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.IOParameter;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -234,8 +234,8 @@ public class CallActivityJsonConverter extends BaseBpmnJsonConverter {
             JsonNode sourceNode = itemNode.get(PROPERTY_IOPARAMETER_SOURCE);
             JsonNode sourceExpressionNode = itemNode.get(PROPERTY_IOPARAMETER_SOURCE_EXPRESSION);
             if ((sourceNode != null
-                    && StringUtils.isNotEmpty(sourceNode.asText()))
-                    || (sourceExpressionNode != null && StringUtils.isNotEmpty(sourceExpressionNode.asText()))) {
+                    && StringUtils.isNotEmpty(sourceNode.asString()))
+                    || (sourceExpressionNode != null && StringUtils.isNotEmpty(sourceExpressionNode.asString()))) {
 
                 IOParameter parameter = new IOParameter();
                 if (StringUtils.isNotEmpty(getValueAsString(PROPERTY_IOPARAMETER_SOURCE, itemNode))) {

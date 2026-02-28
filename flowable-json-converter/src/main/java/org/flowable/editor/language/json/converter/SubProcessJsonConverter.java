@@ -14,9 +14,6 @@ package org.flowable.editor.language.json.converter;
 
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.BooleanUtils;
@@ -26,6 +23,9 @@ import org.flowable.bpmn.model.GraphicInfo;
 import org.flowable.bpmn.model.SubProcess;
 import org.flowable.bpmn.model.Transaction;
 import org.flowable.bpmn.model.ValuedDataObject;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers

@@ -12,8 +12,6 @@
  */
 package org.flowable.editor.language.json.converter.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,14 +21,16 @@ import java.util.Set;
 import org.flowable.editor.constants.EditorJsonConstants;
 import org.flowable.editor.constants.StencilConstants;
 import org.flowable.editor.language.json.converter.BpmnJsonConverterUtil;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
 
 public final class JsonConverterUtil implements EditorJsonConstants, StencilConstants {
 
     public static String getPropertyValueAsString(final String name, final JsonNode objectNode) {
         String propertyValue = null;
         JsonNode propertyNode = getProperty(name, objectNode);
-        if (propertyNode != null && !"null".equalsIgnoreCase(propertyNode.asText())) {
-            propertyValue = propertyNode.asText();
+        if (propertyNode != null && !"null".equalsIgnoreCase(propertyNode.asString())) {
+            propertyValue = propertyNode.asString();
         }
         return propertyValue;
     }
@@ -57,8 +57,8 @@ public final class JsonConverterUtil implements EditorJsonConstants, StencilCons
     public static List<String> getPropertyValueAsList(final String name, final JsonNode objectNode) {
         List<String> resultList = new ArrayList<>();
         JsonNode propertyNode = getProperty(name, objectNode);
-        if (propertyNode != null && !"null".equalsIgnoreCase(propertyNode.asText())) {
-            String propertyValue = propertyNode.asText();
+        if (propertyNode != null && !"null".equalsIgnoreCase(propertyNode.asString())) {
+            String propertyValue = propertyNode.asString();
             String[] valueList = propertyValue.split(",");
             for (String value : valueList) {
                 resultList.add(value.trim());
@@ -117,7 +117,7 @@ public final class JsonConverterUtil implements EditorJsonConstants, StencilCons
                         JsonNode propertyNode = properties.get(propertyName);
                         result.add(new JsonLookupResult(
                                 BpmnJsonConverterUtil.getElementId(childShapeNode),
-                                nameNode != null ? nameNode.asText() : null,
+                                nameNode != null ? nameNode.asString() : null,
                                 propertyNode));
                     }
                 }
@@ -203,7 +203,7 @@ public final class JsonConverterUtil implements EditorJsonConstants, StencilCons
         Set<String> result = new HashSet<>(); // Using a Set to filter out doubles
         for (JsonNode node : jsonNodes) {
             if (node.has(propertyName)) {
-                String propertyValue = node.get(propertyName).asText();
+                String propertyValue = node.get(propertyName).asString();
                 if (propertyValue != null) { // Just to be safe
                     result.add(propertyValue);
                 }

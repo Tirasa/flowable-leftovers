@@ -14,9 +14,6 @@ package org.flowable.editor.language.json.converter;
 
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -35,6 +32,9 @@ import org.flowable.bpmn.model.GraphicInfo;
 import org.flowable.bpmn.model.MessageEventDefinition;
 import org.flowable.bpmn.model.SignalEventDefinition;
 import org.flowable.bpmn.model.VariableListenerEventDefinition;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -199,7 +199,7 @@ public class BoundaryEventJsonConverter extends BaseBpmnJsonConverter {
             boundaryEvent.setCancelActivity(getPropertyValueAsBoolean(PROPERTY_CANCEL_ACTIVITY, elementNode));
         }
         boundaryEvent.setAttachedToRefId(lookForAttachedRef(
-                elementNode.get(EDITOR_SHAPE_ID).asText(), modelNode.get(EDITOR_CHILD_SHAPES)));
+                elementNode.get(EDITOR_SHAPE_ID).asString(), modelNode.get(EDITOR_CHILD_SHAPES)));
         return boundaryEvent;
     }
 
@@ -212,7 +212,7 @@ public class BoundaryEventJsonConverter extends BaseBpmnJsonConverter {
                 if (outgoingNode != null && outgoingNode.size() > 0) {
                     for (JsonNode outgoingChildNode : outgoingNode) {
                         JsonNode resourceNode = outgoingChildNode.get(EDITOR_SHAPE_ID);
-                        if (resourceNode != null && boundaryEventId.equals(resourceNode.asText())) {
+                        if (resourceNode != null && boundaryEventId.equals(resourceNode.asString())) {
                             attachedRefId = BpmnJsonConverterUtil.getElementId(childNode);
                             break;
                         }

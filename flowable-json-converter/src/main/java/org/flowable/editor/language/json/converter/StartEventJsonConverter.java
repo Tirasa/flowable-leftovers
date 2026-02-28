@@ -16,8 +16,6 @@ import static org.flowable.editor.language.json.converter.util.JsonConverterUtil
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BaseElement;
@@ -33,6 +31,8 @@ import org.flowable.bpmn.model.SignalEventDefinition;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.TimerEventDefinition;
 import org.flowable.bpmn.model.VariableListenerEventDefinition;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -158,12 +158,12 @@ public class StartEventJsonConverter extends BaseBpmnJsonConverter {
                 JsonNode formReferenceNode = getProperty(PROPERTY_FORM_REFERENCE, elementNode);
                 if (formReferenceNode != null && formReferenceNode.get("id") != null) {
 
-                    String formModelId = formReferenceNode.get("id").asText();
+                    String formModelId = formReferenceNode.get("id").asString();
                     String formModelKey = converterContext.getFormModelKeyForFormModelId(formModelId);
                     if (formModelKey != null) {
                         startEvent.setFormKey(formModelKey);
                     } else {
-                        String key = formReferenceNode.get("key").asText();
+                        String key = formReferenceNode.get("key").asString();
                         if (StringUtils.isNotEmpty(key)) {
                             startEvent.setFormKey(key);
                         }

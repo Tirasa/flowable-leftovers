@@ -12,9 +12,6 @@
  */
 package org.flowable.editor.language.json.converter;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import java.util.Map;
 import org.flowable.bpmn.model.Association;
@@ -22,6 +19,9 @@ import org.flowable.bpmn.model.BaseElement;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowElementsContainer;
 import org.flowable.bpmn.model.GraphicInfo;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -144,10 +144,10 @@ public class AssociationJsonConverter extends BaseBpmnJsonConverter {
         Association association = new Association();
 
         String sourceRef = BpmnJsonConverterUtil.lookForSourceRef(
-                elementNode.get(EDITOR_SHAPE_ID).asText(), modelNode.get(EDITOR_CHILD_SHAPES));
+                elementNode.get(EDITOR_SHAPE_ID).asString(), modelNode.get(EDITOR_CHILD_SHAPES));
         if (sourceRef != null) {
             association.setSourceRef(sourceRef);
-            String targetId = elementNode.get("target").get(EDITOR_SHAPE_ID).asText();
+            String targetId = elementNode.get("target").get(EDITOR_SHAPE_ID).asString();
             association.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
         }
 

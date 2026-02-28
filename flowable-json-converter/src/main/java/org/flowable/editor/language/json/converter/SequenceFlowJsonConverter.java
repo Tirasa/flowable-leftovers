@@ -15,9 +15,6 @@ package org.flowable.editor.language.json.converter;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getProperty;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.Activity;
@@ -30,6 +27,9 @@ import org.flowable.bpmn.model.FlowElementsContainer;
 import org.flowable.bpmn.model.GraphicInfo;
 import org.flowable.bpmn.model.InclusiveGateway;
 import org.flowable.bpmn.model.SequenceFlow;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -160,12 +160,12 @@ public class SequenceFlowJsonConverter extends BaseBpmnJsonConverter {
         SequenceFlow flow = new SequenceFlow();
 
         String sourceRef = BpmnJsonConverterUtil.lookForSourceRef(
-                elementNode.get(EDITOR_SHAPE_ID).asText(), modelNode.get(EDITOR_CHILD_SHAPES));
+                elementNode.get(EDITOR_SHAPE_ID).asString(), modelNode.get(EDITOR_CHILD_SHAPES));
         if (sourceRef != null) {
             flow.setSourceRef(sourceRef);
             JsonNode targetNode = elementNode.get("target");
             if (targetNode != null && !targetNode.isNull()) {
-                String targetId = targetNode.get(EDITOR_SHAPE_ID).asText();
+                String targetId = targetNode.get(EDITOR_SHAPE_ID).asString();
                 if (shapeMap.get(targetId) != null) {
                     flow.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
                 }
@@ -174,15 +174,15 @@ public class SequenceFlowJsonConverter extends BaseBpmnJsonConverter {
 
         JsonNode conditionNode = getProperty(PROPERTY_SEQUENCEFLOW_CONDITION, elementNode);
         if (conditionNode != null) {
-            if (conditionNode.isTextual() && !conditionNode.isNull()) {
-                flow.setConditionExpression(conditionNode.asText());
+            if (conditionNode.isString() && !conditionNode.isNull()) {
+                flow.setConditionExpression(conditionNode.asString());
             } else if (conditionNode.get("expression") != null) {
                 JsonNode expressionNode = conditionNode.get("expression");
                 if (expressionNode.get("type") != null) {
-                    String expressionType = expressionNode.get("type").asText();
+                    String expressionType = expressionNode.get("type").asString();
 
                     if ("variables".equalsIgnoreCase(expressionType) && expressionNode.get("fieldType") != null) {
-                        String fieldType = expressionNode.get("fieldType").asText();
+                        String fieldType = expressionNode.get("fieldType").asString();
 
                         if ("field".equalsIgnoreCase(fieldType)) {
                             setFieldConditionExpression(flow, expressionNode);
@@ -193,7 +193,7 @@ public class SequenceFlowJsonConverter extends BaseBpmnJsonConverter {
                     } else if (expressionNode.get("staticValue") != null
                             && !expressionNode.get("staticValue").isNull()) {
 
-                        flow.setConditionExpression(expressionNode.get("staticValue").asText());
+                        flow.setConditionExpression(expressionNode.get("staticValue").asString());
                     }
                 }
             }
@@ -207,17 +207,17 @@ public class SequenceFlowJsonConverter extends BaseBpmnJsonConverter {
     protected static void setFieldConditionExpression(final SequenceFlow flow, final JsonNode expressionNode) {
         String fieldId = null;
         if (expressionNode.get("fieldId") != null && !expressionNode.get("fieldId").isNull()) {
-            fieldId = expressionNode.get("fieldId").asText();
+            fieldId = expressionNode.get("fieldId").asString();
         }
 
         String operator = null;
         if (expressionNode.get("operator") != null && !expressionNode.get("operator").isNull()) {
-            operator = expressionNode.get("operator").asText();
+            operator = expressionNode.get("operator").asString();
         }
 
         String value = null;
         if (expressionNode.get("value") != null && !expressionNode.get("value").isNull()) {
-            value = expressionNode.get("value").asText();
+            value = expressionNode.get("value").asString();
         }
 
         if (fieldId != null && operator != null && value != null) {
@@ -236,12 +236,12 @@ public class SequenceFlowJsonConverter extends BaseBpmnJsonConverter {
 
         String operator = null;
         if (expressionNode.get("operator") != null && !expressionNode.get("operator").isNull()) {
-            operator = expressionNode.get("operator").asText();
+            operator = expressionNode.get("operator").asString();
         }
 
         String outcomeName = null;
         if (expressionNode.get("outcomeName") != null && !expressionNode.get("outcomeName").isNull()) {
-            outcomeName = expressionNode.get("outcomeName").asText();
+            outcomeName = expressionNode.get("outcomeName").asString();
         }
 
         if (formId != null && operator != null && outcomeName != null) {

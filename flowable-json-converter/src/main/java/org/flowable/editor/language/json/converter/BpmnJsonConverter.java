@@ -12,11 +12,6 @@
  */
 package org.flowable.editor.language.json.converter;
 
-import org.flowable.editor.language.json.converter.util.JsonConverterUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -32,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.editor.constants.EditorJsonConstants;
-import org.flowable.editor.constants.StencilConstants;
 import org.flowable.bpmn.model.Activity;
 import org.flowable.bpmn.model.BaseElement;
 import org.flowable.bpmn.model.BoundaryEvent;
@@ -59,9 +52,16 @@ import org.flowable.bpmn.model.Signal;
 import org.flowable.bpmn.model.SignalEventDefinition;
 import org.flowable.bpmn.model.SubProcess;
 import org.flowable.bpmn.model.ValuedDataObject;
+import org.flowable.editor.constants.EditorJsonConstants;
+import org.flowable.editor.constants.StencilConstants;
 import org.flowable.editor.language.json.converter.util.CollectionUtils;
+import org.flowable.editor.language.json.converter.util.JsonConverterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -383,7 +383,7 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
                 graphicInfo.setWidth(lowerRightNode.get(EDITOR_BOUNDS_X).asDouble() - graphicInfo.getX() + parentX);
                 graphicInfo.setHeight(lowerRightNode.get(EDITOR_BOUNDS_Y).asDouble() - graphicInfo.getY() + parentY);
 
-                String childShapeId = jsonChildNode.get(EDITOR_SHAPE_ID).asText();
+                String childShapeId = jsonChildNode.get(EDITOR_SHAPE_ID).asString();
                 bpmnModel.addGraphicInfo(BpmnJsonConverterUtil.getElementId(jsonChildNode), graphicInfo);
 
                 shapeMap.put(childShapeId, jsonChildNode);
@@ -393,7 +393,7 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
                     for (JsonNode outgoingChildNode : outgoingNode) {
                         JsonNode resourceNode = outgoingChildNode.get(EDITOR_SHAPE_ID);
                         if (resourceNode != null) {
-                            sourceRefMap.put(resourceNode.asText(), jsonChildNode);
+                            sourceRefMap.put(resourceNode.asString(), jsonChildNode);
                         }
                     }
                 }
@@ -436,9 +436,9 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
                 String childEdgeId = BpmnJsonConverterUtil.getElementId(childNode);
                 JsonNode targetNode = childNode.get("target");
                 if (targetNode != null && !targetNode.isNull()) {
-                    String targetRefId = targetNode.get(EDITOR_SHAPE_ID).asText();
+                    String targetRefId = targetNode.get(EDITOR_SHAPE_ID).asString();
                     List<JsonNode> sourceAndTargetList = new ArrayList<>();
-                    sourceAndTargetList.add(sourceRefMap.get(childNode.get(EDITOR_SHAPE_ID).asText()));
+                    sourceAndTargetList.add(sourceRefMap.get(childNode.get(EDITOR_SHAPE_ID).asString()));
                     sourceAndTargetList.add(shapeMap.get(targetRefId));
                     sourceAndTargetMap.put(childEdgeId, sourceAndTargetList);
                 }
@@ -1076,9 +1076,9 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
         if (signalDefinitionNode != null) {
             if (signalDefinitionNode instanceof ArrayNode signalDefinitionArrayNode) {
                 for (JsonNode signalDefinitionJsonNode : signalDefinitionArrayNode) {
-                    String signalId = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_ID).asText();
-                    String signalName = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_NAME).asText();
-                    String signalScope = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_SCOPE).asText();
+                    String signalId = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_ID).asString();
+                    String signalName = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_NAME).asString();
+                    String signalScope = signalDefinitionJsonNode.get(PROPERTY_SIGNAL_DEFINITION_SCOPE).asString();
 
                     if (StringUtils.isNotEmpty(signalId) && StringUtils.isNotEmpty(signalName)) {
                         Signal signal = new Signal();
@@ -1100,9 +1100,9 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
         escalationDefinitionNode = BpmnJsonConverterUtil.validateIfNodeIsTextual(escalationDefinitionNode);
         if (escalationDefinitionNode != null) {
             if (escalationDefinitionNode instanceof ArrayNode escalationDefinitionArrayNode) {
-                for (JsonNode signalDefinitionJsonNode : escalationDefinitionArrayNode) {
-                    String escalationId = signalDefinitionJsonNode.get(PROPERTY_ESCALATION_DEFINITION_ID).asText();
-                    String escalationName = signalDefinitionJsonNode.get(PROPERTY_ESCALATION_DEFINITION_NAME).asText();
+                for (JsonNode signalDefinition : escalationDefinitionArrayNode) {
+                    String escalationId = signalDefinition.get(PROPERTY_ESCALATION_DEFINITION_ID).asString();
+                    String escalationName = signalDefinition.get(PROPERTY_ESCALATION_DEFINITION_NAME).asString();
 
                     if (StringUtils.isNotEmpty(escalationId) && StringUtils.isNotEmpty(escalationName)) {
                         Escalation escalation = new Escalation();
@@ -1126,7 +1126,7 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
             }
             process.setDocumentation(BpmnJsonConverterUtil.getPropertyValueAsString(PROPERTY_DOCUMENTATION, modelNode));
             JsonNode processExecutableNode = JsonConverterUtil.getProperty(PROPERTY_IS_EXECUTABLE, modelNode);
-            if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asText())) {
+            if (processExecutableNode != null && StringUtils.isNotEmpty(processExecutableNode.asString())) {
                 process.setExecutable(JsonConverterUtil.getPropertyValueAsBoolean(PROPERTY_IS_EXECUTABLE, modelNode));
             }
             String historyLevel =
@@ -1192,7 +1192,7 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
                         || STENCIL_ASSOCIATION.equalsIgnoreCase(BpmnJsonConverterUtil.getStencilId(shapeNode))) {
 
                     String sourceRef = BpmnJsonConverterUtil.lookForSourceRef(
-                            shapeNode.get(EDITOR_SHAPE_ID).asText(), modelNode.get(EDITOR_CHILD_SHAPES));
+                            shapeNode.get(EDITOR_SHAPE_ID).asString(), modelNode.get(EDITOR_CHILD_SHAPES));
                     if (sourceRef != null) {
                         Lane lane = elementInLaneMap.get(sourceRef);
                         SequenceFlowJsonConverter flowConverter = new SequenceFlowJsonConverter();

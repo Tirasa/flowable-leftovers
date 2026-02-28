@@ -16,9 +16,6 @@ import static org.flowable.editor.language.json.converter.util.JsonConverterUtil
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsString;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.BooleanNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BaseElement;
@@ -28,6 +25,9 @@ import org.flowable.bpmn.model.HttpServiceTask;
 import org.flowable.bpmn.model.ImplementationType;
 import org.flowable.bpmn.model.MapExceptionEntry;
 import org.flowable.bpmn.model.ServiceTask;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.BooleanNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -270,9 +270,9 @@ public class ServiceTaskJsonConverter extends BaseBpmnJsonConverter {
             if (itemsArrayNode != null) {
                 for (JsonNode itemNode : itemsArrayNode) {
                     JsonNode nameNode = itemNode.get(PROPERTY_SERVICETASK_FIELD_NAME);
-                    if (nameNode != null && StringUtils.isNotEmpty(nameNode.asText())) {
+                    if (nameNode != null && StringUtils.isNotEmpty(nameNode.asString())) {
                         FieldExtension field = new FieldExtension();
-                        field.setFieldName(nameNode.asText());
+                        field.setFieldName(nameNode.asString());
                         if (StringUtils.isNotEmpty(
                                 getValueAsString(PROPERTY_SERVICETASK_FIELD_STRING_VALUE, itemNode))) {
 

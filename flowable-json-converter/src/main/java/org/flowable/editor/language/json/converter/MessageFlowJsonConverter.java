@@ -12,9 +12,6 @@
  */
 package org.flowable.editor.language.json.converter;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BaseElement;
@@ -22,6 +19,9 @@ import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowElementsContainer;
 import org.flowable.bpmn.model.GraphicInfo;
 import org.flowable.bpmn.model.MessageFlow;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -120,12 +120,12 @@ public class MessageFlowJsonConverter extends BaseBpmnJsonConverter {
         MessageFlow flow = new MessageFlow();
 
         String sourceRef = BpmnJsonConverterUtil.lookForSourceRef(
-                elementNode.get(EDITOR_SHAPE_ID).asText(), modelNode.get(EDITOR_CHILD_SHAPES));
+                elementNode.get(EDITOR_SHAPE_ID).asString(), modelNode.get(EDITOR_CHILD_SHAPES));
         if (sourceRef != null) {
             flow.setSourceRef(sourceRef);
             JsonNode targetNode = elementNode.get("target");
             if (targetNode != null && !targetNode.isNull()) {
-                String targetId = targetNode.get(EDITOR_SHAPE_ID).asText();
+                String targetId = targetNode.get(EDITOR_SHAPE_ID).asString();
                 if (shapeMap.get(targetId) != null) {
                     flow.setTargetRef(BpmnJsonConverterUtil.getElementId(shapeMap.get(targetId)));
                 }

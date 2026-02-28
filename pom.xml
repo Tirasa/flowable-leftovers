@@ -24,7 +24,7 @@
   <description>Brings back components leftover by latest Flowable releases</description>
   <groupId>net.tirasa.flowable-leftovers</groupId>
   <artifactId>flowable-leftovers</artifactId>
-  <version>7.2.1-SNAPSHOT</version>
+  <version>8.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <url>https://github.com/Tirasa/flowable-leftovers</url>
@@ -91,7 +91,7 @@
   </developers>
 
   <properties>
-    <flowable.version>7.2.0</flowable.version>    
+    <flowable.version>8.0.0</flowable.version>    
 
     <targetJdk>21</targetJdk>
     <rootpom.basedir>${basedir}</rootpom.basedir>

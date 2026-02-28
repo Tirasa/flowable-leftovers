@@ -15,13 +15,13 @@ package org.flowable.editor.language.json.converter;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getProperty;
 import static org.flowable.editor.language.json.converter.util.JsonConverterUtil.getPropertyValueAsBoolean;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import org.flowable.bpmn.model.BaseElement;
 import org.flowable.bpmn.model.FieldExtension;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.ServiceTask;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -83,7 +83,7 @@ public class DecisionTaskJsonConverter extends BaseBpmnJsonConverter {
                 && decisionTableReferenceNode.has("id")
                 && !decisionTableReferenceNode.get("id").isNull()) {
 
-            String decisionTableId = decisionTableReferenceNode.get("id").asText();
+            String decisionTableId = decisionTableReferenceNode.get("id").asString();
             decisionModelKey = converterContext.getDecisionTableModelKeyForDecisionTableModelId(decisionTableId);
             referenceType = REFERENCE_TYPE_DECISION_TABLE;
         }
@@ -93,7 +93,7 @@ public class DecisionTaskJsonConverter extends BaseBpmnJsonConverter {
                 && decisionServiceReferenceNode.has("id")
                 && !decisionServiceReferenceNode.get("id").isNull()) {
 
-            String decisionServiceId = decisionServiceReferenceNode.get("id").asText();
+            String decisionServiceId = decisionServiceReferenceNode.get("id").asString();
             decisionModelKey = converterContext.getDecisionServiceModelKeyForDecisionServiceModelId(decisionServiceId);
             referenceType = REFERENCE_TYPE_DECISION_SERVICE;
         }

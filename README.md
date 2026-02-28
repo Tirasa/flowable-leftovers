@@ -19,7 +19,7 @@
 
 As explained by [this message](https://forum.flowable.org/t/module-flowable-json-converter-and-flowable-ui-modeler-frontend-missing-in-7-0-0-m1/10061/7) in the Flowable forum, not all components released with 6.8.0 are scheduled for next stable version 7.0.0.
 
-The purpose of this repository is to attempt to migrate the leftover components to 7.0.0.
+The purpose of this repository is to attempt to migrate the leftover components to later versions as 7.x and 8.x.
 
 
 <a href="https://github.com/Tirasa/flowable-leftovers/actions/workflows/ci.yml">
