@@ -20,12 +20,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.Activity;
 import org.flowable.bpmn.model.BaseElement;
@@ -607,7 +607,7 @@ public class BpmnJsonConverter implements EditorJsonConstants, StencilConstants,
             intersections.add(new java.awt.geom.Point2D.Double(bounds2D.getX(), bounds2D.getY()));
             return intersections;
         }
-        return Collections.emptySet();
+        return Set.of();
     }
 
     private static Shape getLineShape(final java.awt.geom.Line2D line2D) {

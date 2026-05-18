@@ -13,7 +13,6 @@
 package org.flowable.editor.language.json.converter.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -169,7 +168,7 @@ public final class JsonConverterUtil implements EditorJsonConstants, StencilCons
         if (appModelJson.has("models")) {
             return JsonConverterUtil.gatherStringPropertyFromJsonNodes(appModelJson.get("models"), "id");
         }
-        return Collections.emptySet();
+        return Set.of();
     }
 
     // GENERIC
